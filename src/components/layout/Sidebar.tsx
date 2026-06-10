@@ -9,10 +9,11 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
 
+// viewer = editor de comité (acceso limitado a actividades, sin gestión de comités ni usuarios)
 const navItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin', 'editor', 'viewer'] },
   { href: '/activities', label: 'Actividades', icon: CalendarDays, roles: ['admin', 'editor', 'viewer'] },
-  { href: '/committees', label: 'Comités', icon: ShieldCheck, roles: ['admin', 'editor', 'viewer'] },
+  { href: '/committees', label: 'Comités', icon: ShieldCheck, roles: ['admin', 'editor'] },
   { href: '/users', label: 'Usuarios', icon: Users2, roles: ['admin'] },
 ];
 

@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/Textarea';
 import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 import { useCommittees } from '@/hooks/useCommittees';
+import { localInputToISO } from '@/lib/utils';
 import type { Activity } from '@/types';
 
 const schema = z.object({
@@ -56,8 +57,17 @@ export function ActivityForm({ defaultValues, onSubmit, loading }: ActivityFormP
     );
   };
 
+  // Convertir fechas locales a ISO antes de enviar
+  const handleSubmitWithDates = (data: FormData) => {
+    return onSubmit({
+      ...data,
+      start_date: localInputToISO(data.start_date),
+      end_date: data.end_date ? localInputToISO(data.end_date) : undefined,
+    });
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+    <form onSubmit={handleSubmit(handleSubmitWithDates)} className="space-y-5">
       <Input
         label="Nombre de la actividad *"
         placeholder="Ej: Culto de Navidad"

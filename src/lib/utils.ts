@@ -8,16 +8,52 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/** Convierte string ISO a objeto Date respetando timezone local */
+function parseDate(date: string): Date {
+  return new Date(date);
+}
+
 export function formatDate(date: string) {
-  return format(new Date(date), "d 'de' MMMM, yyyy", { locale: es });
+  return format(parseDate(date), "d 'de' MMMM, yyyy", { locale: es });
 }
 
 export function formatDateTime(date: string) {
-  return format(new Date(date), "d 'de' MMMM, yyyy · HH:mm", { locale: es });
+  return format(parseDate(date), "d 'de' MMMM, yyyy · HH:mm", { locale: es });
+}
+
+export function formatTime(date: string) {
+  return format(parseDate(date), 'HH:mm', { locale: es });
 }
 
 export function timeAgo(date: string) {
-  return formatDistanceToNow(new Date(date), { addSuffix: true, locale: es });
+  return formatDistanceToNow(parseDate(date), { addSuffix: true, locale: es });
+}
+
+/**
+ * Convierte el valor de un input datetime-local (sin zona horaria)
+ * al ISO string correcto para enviar al backend.
+ * El input devuelve "2024-01-15T10:00" → lo tratamos como hora local.
+ */
+export function localInputToISO(value: string): string {
+  if (!value) return value;
+  // Si ya tiene info de zona horaria, devolver tal cual
+  if (value.includes('Z') || value.includes('+') || value.match(/\d{2}:\d{2}:\d{2}/)) {
+    return new Date(value).toISOString();
+  }
+  // Interpretar como hora local del navegador
+  return new Date(value).toISOString();
+}
+
+/**
+ * Convierte un ISO string del backend al formato que acepta datetime-local
+ * mostrando la hora en zona horaria local del usuario.
+ */
+export function isoToLocalInput(isoString?: string): string {
+  if (!isoString) return '';
+  const d = new Date(isoString);
+  // Formato: YYYY-MM-DDTHH:mm (sin segundos, sin zona)
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
 export const ACTIVITY_STATUS_LABELS: Record<ActivityStatus, string> = {

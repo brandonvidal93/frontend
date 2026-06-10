@@ -9,10 +9,13 @@ import { CommitteeForm } from '@/components/committees/CommitteeForm';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { useAuth } from '@/context/AuthContext';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 import api from '@/lib/api';
 import type { Committee } from '@/types';
 
 export default function CommitteeDetailPage() {
+  const { loading: authLoading } = useRequireAuth();
+  if (authLoading) return null;
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { isAdmin, isEditor } = useAuth();

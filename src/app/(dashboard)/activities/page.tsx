@@ -11,6 +11,7 @@ import { Select } from '@/components/ui/Select';
 import { useActivities } from '@/hooks/useActivities';
 import { useCommittees } from '@/hooks/useCommittees';
 import { useAuth } from '@/context/AuthContext';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { ACTIVITY_STATUS_LABELS, APPROVAL_STATUS_LABELS } from '@/lib/utils';
 
 const statusOptions = [
@@ -25,7 +26,9 @@ const approvalOptions = [
 
 export default function ActivitiesPage() {
   const router = useRouter();
+  const { loading: authLoading } = useRequireAuth();
   const { isEditor } = useAuth();
+  if (authLoading) return null;
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState('');
   const [approvalStatus, setApprovalStatus] = useState('');

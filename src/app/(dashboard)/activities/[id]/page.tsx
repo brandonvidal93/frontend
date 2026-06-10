@@ -14,6 +14,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { useActivity } from '@/hooks/useActivities';
 import { useAuth } from '@/context/AuthContext';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 import {
   ACTIVITY_STATUS_LABELS, ACTIVITY_STATUS_COLORS,
   APPROVAL_STATUS_LABELS, APPROVAL_STATUS_COLORS,
@@ -23,7 +24,9 @@ import api from '@/lib/api';
 import { useForm } from 'react-hook-form';
 
 export default function ActivityDetailPage() {
+  const { loading: authLoading } = useRequireAuth();
   const { id } = useParams<{ id: string }>();
+  if (authLoading) return null;
   const router = useRouter();
   const { user, isEditor, isAdmin } = useAuth();
   const { activity, loading } = useActivity(id);

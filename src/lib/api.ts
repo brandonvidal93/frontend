@@ -39,7 +39,7 @@ api.interceptors.response.use(
       } catch {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        window.location.href = '/login';
+        // No redirigir aquí — cada página protegida maneja su propio redirect via useRequireAuth
       }
     }
     return Promise.reject(error);

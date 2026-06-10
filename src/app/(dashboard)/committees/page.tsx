@@ -10,11 +10,14 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { useCommittees } from '@/hooks/useCommittees';
 import { useAuth } from '@/context/AuthContext';
+import { useRequireAuth } from '@/hooks/useRequireAuth';
 import api from '@/lib/api';
 
 export default function CommitteesPage() {
+  const { loading: authLoading } = useRequireAuth();
   const { committees, loading, refetch } = useCommittees();
   const { isEditor } = useAuth();
+  if (authLoading) return null;
   const [modal, setModal] = useState(false);
   const [saving, setSaving] = useState(false);
 

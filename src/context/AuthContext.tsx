@@ -45,7 +45,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data } = await api.post('/auth/login', credentials);
     localStorage.setItem('access_token', data.access_token);
     localStorage.setItem('refresh_token', data.refresh_token);
-    await fetchMe();
+    // El perfil ya viene en la respuesta del login, lo seteamos directo
+    if (data.user) setUser(data.user);
+    else await fetchMe();
     router.push('/');
   };
 

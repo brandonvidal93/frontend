@@ -5,6 +5,7 @@ export type ApprovalStatus = 'pending' | 'approved' | 'rejected';
 export interface Profile {
   id: string;
   full_name: string;
+  email?: string;
   avatar_url?: string;
   role: UserRole;
   created_at: string;

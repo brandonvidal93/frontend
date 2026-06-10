@@ -1,6 +1,6 @@
 'use client';
 
-import { CalendarDays, CheckCircle2, Clock, XCircle, Users2, ShieldAlert } from 'lucide-react';
+import { CalendarDays, CheckCircle2, Clock, ShieldAlert } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { ActivityCard } from '@/components/activities/ActivityCard';
 import { useActivities } from '@/hooks/useActivities';
